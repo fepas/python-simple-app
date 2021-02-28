@@ -65,7 +65,7 @@ Caso haja alguma dúvida em relação a execução da tarefa, me procure no tele
 
         <br>
 
-        Divirtão-se!
+        Have fun!
 
 
     
