@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import request
+import json
 
 app = Flask(__name__)
 
@@ -21,9 +22,9 @@ def get_user(user):
 
 #################################
 
-# @app.route('/')
-# def hello():
-#     return "Hello World!"
+@app.route('/')
+def hello():
+    return "Lyra!"
 
 # @app.route('/user/<username>', methods=['GET', 'POST'])
 # def user(username):
@@ -60,7 +61,7 @@ def get_all_users():
         for u in users :
             s += u["name"] + "\n"
 
-        return s
+        return json.dumps(users)
 
 @app.route('/get_user_sign', methods=['GET', 'POST'])
 def get_user_sign():
