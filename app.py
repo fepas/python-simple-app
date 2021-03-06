@@ -10,9 +10,9 @@ def post_user(user):
     
     if user not in users:
         users.append(user)
-        return f"o usuário {user} foi adicionado."
+        return f"o usuário {user['name']} foi adicionado."
     else:
-        return f"o usuário {user} já existe."
+        return f"o usuário {user['name']} já existe."
     
 def get_user(user):
     if user in users:
@@ -26,13 +26,6 @@ def get_user(user):
 def hello():
     return "Lyra!"
 
-# @app.route('/user/<username>', methods=['GET', 'POST'])
-# def user(username):
-#     if request.method == 'POST':
-#         return post_user(username)
-#     else:
-#         return get_user(username)
-
 @app.route('/jsonrequest', methods=['GET', 'POST'])
 def jsonrequest():
     if request.method == 'POST':
@@ -44,39 +37,35 @@ def jsonrequest():
 def set_user():
     #Exemplo de json de usuário
     # {
-    # 	"name" : "JP",
-    # 	"dia" : 16,
-    # 	"mes" : 1,
-    # 	"ano" : 1997
+    # "name":"Felipe Campos",
+    # "birth_day": "14",
+    # "birth_month": "05",
+    # "birth_year": "1998"
     # }
     if request.method == 'POST':
         json = request.get_json()
-        post_user(json)
-        return json
+        return post_user(json)
+        
 
 @app.route('/get_all_users', methods=['GET', 'POST'])
 def get_all_users():
     if request.method == 'GET':
-        s = ""
-        for u in users :
-            s += u["name"] + "\n"
-
         return json.dumps(users)
 
-@app.route('/get_user_sign', methods=['GET', 'POST'])
-def get_user_sign():
-    # Exemplo de get de user por json
-    # {
-    # "name" : "JP"
-    # }
+@app.route('/sign/<name>', methods=['GET', 'POST'])
+def get_user_sign(name):
     if request.method == 'GET':
         json = request.get_json()
 
         for u in users:
-            if json["name"] == u["name"]:
-                day = int(u["dia"])
-                month = int(u["mes"])
-                return get_sign(day, month)
+            if name == u["name"]:
+                day = int(u["birth_day"])
+                month = int(u["birth_month"])
+                sign = get_sign(day,month)
+
+                u["sign"] = sign
+
+                return u
 
         return 'Nenhum usuário encontrado, por favor, adicione esse usuário utilizando o dominio set_user'
 
